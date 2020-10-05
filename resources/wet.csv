@@ -1,0 +1,21 @@
+Product code,Bureau of Meteorology station number,Year,Month,Day,Rainfall amount (millimetres),Period over which rainfall was measured (days),Quality
+test,test,2000,01,01,1,1,y
+test,test,2000,01,02,2,1,y
+test,test,2000,01,03,3,1,y
+test,test,2000,01,04,4,1,y
+test,test,2000,01,05,5,1,y
+test,test,2000,01,06,6,1,y
+test,test,2000,01,07,7,1,y
+test,test,2000,01,08,8,1,y
+test,test,2000,01,09,9,1,y
+test,test,2000,01,10,10,1,y
+test,test,2000,01,11,9,1,y
+test,test,2000,01,12,8,1,y
+test,test,2000,01,13,7,1,y
+test,test,2000,01,14,6,1,y
+test,test,2000,01,15,5,1,y
+test,test,2000,01,16,4,1,y
+test,test,2000,01,17,3,1,y
+test,test,2000,01,18,2,1,y
+test,test,2000,01,19,1,1,y
+test,test,2000,01,20,,1,y
