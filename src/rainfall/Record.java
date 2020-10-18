@@ -5,5 +5,14 @@ package rainfall;
  * specific year that comes from a particular rainfall station
  */
 public class Record {
-    // TODO: add your record implementation here
+    private int year;
+    private int month;
+    private double totalMonthlyRainfall;
+    private double minimumDailyRainfallMonth;
+    private double minimumDailyRainfallYear;
+    private double maximumDailyRainfallMonth;
+    private double maximumDailyRainfallYear;
+
+
+
 }
