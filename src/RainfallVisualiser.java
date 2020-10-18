@@ -2,11 +2,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import rainfall.Loader;
 import rainfall.Station;
 
 public class RainfallVisualiser extends Application {
 
-    // TODO: add your UI control instance variables here
+    //  add your UI control instance variables here
 
     private Station station;
 
@@ -19,10 +20,17 @@ public class RainfallVisualiser extends Application {
         stage.setScene(scene);
         stage.setTitle("Rainfall Visualiser");
 
-        // TODO: add your UI control setup code here using helper methods
+        // add your UI control setup code here using helper methods
 
         stage.show();
-    }
+
+        String stationName = "CopperlodeDamStation";
+        String directoryName = "resources";
+        try {
+        Station station = Loader.load(directoryName, stationName);
+    } catch (Loader.LoaderException e) {
+            e.printStackTrace();
+    }}
 
     public static void main(String[] args) {
         launch();
