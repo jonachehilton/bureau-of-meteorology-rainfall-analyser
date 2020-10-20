@@ -71,6 +71,7 @@ public class Loader {
                 resetValues(key, year, month);
                 TextIO.put("year,month,total,min,max\n");
             }
+
             // Calculates total monthly rain
             double oldValue = 0;
             if (monthlyTotals.containsKey(key)) {
@@ -95,14 +96,20 @@ public class Loader {
 
 
             if (!key.equals(currentKey)) { // Month has changed
-                TextIO.put(currentYear + ", " + currentMonth + ", ");
-                TextIO.putf("%1.2f, ", monthlyTotals.get(currentKey));
-                TextIO.put(monthlyMinimums.get(currentKey).toString() + ", " + monthlyMaximums.get(currentKey).toString());
-                TextIO.putln();
+                double total = monthlyTotals.get(currentKey);
+                double min = monthlyMinimums.get(currentKey);
+                double max = monthlyMaximums.get(currentKey);
+                writeLineToFile(total, min, max);
                 resetValues(key, year, month);
             }
         }
 
+    }
+
+    private static void writeLineToFile(double total, double min, double max) {
+        String newLine = String.format("%d,%d,%1.2f,%1.2f,%1.2f%s", currentYear, currentMonth,
+                total, min, max, System.lineSeparator());
+        TextIO.putf(newLine);
     }
 
     private static void resetValues(String key, int year, int month) {
