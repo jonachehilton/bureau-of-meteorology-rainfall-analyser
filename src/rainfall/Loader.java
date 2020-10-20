@@ -67,6 +67,10 @@ public class Loader {
 
             String key = "y" + year + "m" + month; // Key for all HashMaps
 
+            if (count == 1) {
+                resetValues(key, year, month);
+                TextIO.put("year,month,total,min,max\n");
+            }
             // Calculates total monthly rain
             double oldValue = 0;
             if (monthlyTotals.containsKey(key)) {
@@ -91,24 +95,21 @@ public class Loader {
 
 
             if (!key.equals(currentKey)) { // Month has changed
-                if (count == 1) {
-                    currentKey = key;
-                    currentMonth = month;
-                    currentYear = year;
-                    TextIO.put("year,month,total,min,max\n");
-                }
                 TextIO.put(currentYear + ", " + currentMonth + ", ");
                 TextIO.putf("%1.2f, ", monthlyTotals.get(currentKey));
                 TextIO.put(monthlyMinimums.get(currentKey).toString() + ", " + monthlyMaximums.get(currentKey).toString());
                 TextIO.putln();
-                currentKey = key;
-                currentMonth = month;
-                currentYear = year;
+                resetValues(key, year, month);
             }
         }
 
     }
 
+    private static void resetValues(String key, int year, int month) {
+        currentKey = key;
+        currentMonth = month;
+        currentYear = year;
+    }
 
     public static class LoaderException extends Exception {
         // your LoaderException implementation here
