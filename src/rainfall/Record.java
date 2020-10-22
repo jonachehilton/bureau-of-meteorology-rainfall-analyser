@@ -14,7 +14,10 @@ public class Record {
         setMinRain(min);
         setMaxRain(max);
     }
-
+    @Override
+    public String toString() {
+        return year + "," + month + "," + totalRain + "," + minRain + "," + maxRain;
+    }
 
     public void setYear(int year) {
         this.year = year;
