@@ -9,4 +9,9 @@ public class Station {
         this.records = stationData;
     }
 
+    @Override
+    public String toString() {
+        return records.toString();
+    }
+
 }
