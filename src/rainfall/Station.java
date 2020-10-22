@@ -3,15 +3,24 @@ package rainfall;
 import java.util.ArrayList;
 
 public class Station {
-    private final ArrayList<Record> records;
+    private ArrayList<Record> records;
 
     public Station(ArrayList<Record> stationData) {
+        setRecords(stationData);
+    }
+
+    public void setRecords(ArrayList<Record> stationData) {
         this.records = stationData;
+    }
+
+    public int[] getYearsInStation() {
+        return new int[this.records.size()];
     }
 
     @Override
     public String toString() {
         return records.toString();
     }
+
 
 }
