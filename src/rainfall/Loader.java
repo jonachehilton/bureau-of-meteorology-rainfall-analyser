@@ -4,6 +4,7 @@ import textio.TextIO;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Loader {
@@ -35,9 +36,31 @@ public class Loader {
             System.out.println("MAKING _analysed file = " + fromFile.toPath());
             calculateRainData(rawPath, fromPath);
         }
-        return null;
+        ArrayList<Record> records = getRecords(fromPath);
+        return new Station(records);
     }
 
+    private static ArrayList<Record> getRecords(String fromPath) {
+        TextIO.readFile(fromPath);
+        ArrayList<Record> records = new ArrayList<>();
+        int count = -1;
+        while (!TextIO.eof()) {
+            String row = TextIO.getln();
+            String[] data = row.split(",");
+            count++;
+            if (count < 1) continue;// To prevent reading the column titles
+
+            int year = Integer.parseInt(data[0]);
+            int month = Integer.parseInt(data[1]);
+            double total = Double.parseDouble(data[2]);
+            double min = Double.parseDouble(data[3]);
+            double max = Double.parseDouble(data[4]);
+
+            records.add(new Record(year, month, total, min, max));
+
+        }
+        return records;
+    }
 
     private static void calculateRainData(String rawPath, String dstPath) {
         TextIO.readFile(rawPath);
@@ -69,7 +92,7 @@ public class Loader {
 
             if (count == 1) {
                 resetValues(key, year, month);
-                TextIO.put("year,month,total,min,max\n");
+                TextIO.put("year,month,total,min,max" + System.lineSeparator());
             }
 
             // Calculates total monthly rain
