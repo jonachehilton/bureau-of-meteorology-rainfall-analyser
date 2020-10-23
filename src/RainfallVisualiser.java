@@ -64,7 +64,7 @@ public class RainfallVisualiser extends Application {
         borderPane.setRight(dataBox);
 
         statusLabel = new Label("Status: ");
-        statusInfo = new Label("ready to load");
+        statusInfo = new Label("Ready");
         HBox statusBox = new HBox(statusLabel, statusInfo);
         statusBox.setPadding(new Insets(5));
         borderPane.setBottom(statusBox);
@@ -85,6 +85,7 @@ public class RainfallVisualiser extends Application {
         try {
             station = Loader.load(directoryName, stationName);
             populateDataArea();
+            statusInfo.setText("Loaded " + stationName);
         } catch (Loader.LoaderException e) {
             e.printStackTrace();
         }
@@ -98,11 +99,11 @@ public class RainfallVisualiser extends Application {
         while (i < station.getYearsInStation().length) {
             String[] record = formattedStationRecords.split(" ");
             int recordLength = record[i].length();
-            String formattedRecord = record[i].substring(0, recordLength - 1);
+            String formattedRecord = record[i].substring(0, recordLength - 1); // Remove trailing comma
             if (i != (station.getYearsInStation().length - 1)) {
                 statistics.append(formattedRecord).append("\n");
 
-            } else statistics.append(record[i]);
+            } else statistics.append(record[i]); // Handles final record that has no trailing comma
 
             i++;
         }
