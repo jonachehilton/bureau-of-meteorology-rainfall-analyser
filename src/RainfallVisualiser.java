@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -16,6 +17,7 @@ public class RainfallVisualiser extends Application {
     private Button button;
     private TextField directoryTextField;
     private TextField stationNameTextField;
+    private TextArea dataArea;
 
     @Override
     public void start(Stage stage) {
@@ -41,6 +43,15 @@ public class RainfallVisualiser extends Application {
         textAndButtonBox.setPadding(new Insets(10));
         textAndButtonBox.setSpacing(10);
         borderPane.setTop(textAndButtonBox);
+
+        dataArea = new TextArea();
+        dataArea.setPrefWidth(350);
+        dataArea.setEditable(false);
+
+
+        HBox dataBox = new HBox(dataArea);
+        dataBox.setPadding(new Insets(10));
+        borderPane.setRight(dataBox);
 
         stage.show();
 
