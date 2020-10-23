@@ -2,38 +2,49 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import rainfall.Loader;
 import rainfall.Station;
 
 public class RainfallVisualiser extends Application {
 
-    //  add your UI control instance variables here
-
     private Station station;
+    private Button button;
+    private TextField directoryTextField;
+    private TextField stationNameTextField;
 
     @Override
     public void start(Stage stage) {
         var borderPane = new BorderPane();
         var scene = new Scene(borderPane);
-        borderPane.setPrefSize(1000,400);
-        // setup window particulars and make it visible
+        borderPane.setPrefSize(1000, 400);
+
         stage.setScene(scene);
         stage.setTitle("Rainfall Visualiser");
 
-        Button button = new Button("Open");
-        button.setOnAction( e -> clickOpenButton());
+        // add your UI control setup code here using helper methods
+        directoryTextField = new TextField("resources");
 
-        HBox hbox = new HBox(button);
-        hbox.setPadding(new Insets(10));
-        hbox.setSpacing(10);
-        borderPane.setTop(hbox);
+        stationNameTextField = new TextField("CopperlodeDamStation");
+        stationNameTextField.setPrefWidth(400);
+
+        button = new Button("Open");
+        button.setOnAction(e -> clickOpenButton());
+
+        HBox textAndButtonBox = new HBox(directoryTextField, stationNameTextField, button);
+        HBox.setHgrow(directoryTextField, Priority.ALWAYS);
+        HBox.setHgrow(stationNameTextField, Priority.ALWAYS);
+        textAndButtonBox.setPadding(new Insets(10));
+        textAndButtonBox.setSpacing(10);
+        borderPane.setTop(textAndButtonBox);
 
         stage.show();
 
-}
+    }
 
     private void clickOpenButton() {
         String stationName = "CopperlodeDamStation";
