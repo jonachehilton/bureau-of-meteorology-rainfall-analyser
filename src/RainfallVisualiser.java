@@ -47,8 +47,8 @@ public class RainfallVisualiser extends Application {
     }
 
     private void clickOpenButton() {
-        String stationName = "CopperlodeDamStation";
-        String directoryName = "resources";
+        String directoryName = directoryTextField.getText();
+        String stationName = stationNameTextField.getText();
         try {
             station = Loader.load(directoryName, stationName);
         } catch (Loader.LoaderException e) {
