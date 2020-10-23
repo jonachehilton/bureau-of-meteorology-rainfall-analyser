@@ -1,6 +1,8 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -21,12 +23,17 @@ public class RainfallVisualiser extends Application {
     private TextArea dataArea;
     private Label statusLabel;
     private Label statusInfo;
+    private Canvas canvas;
+    private int width = 1000;
+    private int height = 400;
 
     @Override
     public void start(Stage stage) {
+        width = 1000;
+        height = 400;
         var borderPane = new BorderPane();
         var scene = new Scene(borderPane);
-        borderPane.setPrefSize(1000, 400);
+        borderPane.setPrefSize(width, height);
 
         stage.setScene(scene);
         stage.setTitle("Rainfall Visualiser");
@@ -62,11 +69,17 @@ public class RainfallVisualiser extends Application {
         statusBox.setPadding(new Insets(5));
         borderPane.setBottom(statusBox);
 
+        canvas = new Canvas(width, height);
+        HBox canvasBox = new HBox(canvas);
+        borderPane.setLeft(canvasBox);
+
         stage.show();
 
     }
 
+
     private void clickOpenButton() {
+        drawPicture(canvas.getGraphicsContext2D());
         String directoryName = directoryTextField.getText();
         String stationName = stationNameTextField.getText();
         try {
@@ -74,6 +87,11 @@ public class RainfallVisualiser extends Application {
         } catch (Loader.LoaderException e) {
             e.printStackTrace();
         }
+    }
+
+    private void drawPicture(GraphicsContext g) {
+        g.strokeLine(60, 23, 60, 600); // Create Y-axis line
+        g.strokeLine(60, 50, 50, 50); // Create Y-axis line
     }
 
     public static void main(String[] args) {
