@@ -84,9 +84,29 @@ public class RainfallVisualiser extends Application {
         String stationName = stationNameTextField.getText();
         try {
             station = Loader.load(directoryName, stationName);
+            populateDataArea();
         } catch (Loader.LoaderException e) {
             e.printStackTrace();
         }
+    }
+
+    private void populateDataArea() {
+        String stationRecords = station.toString();
+        String formattedStationRecords = (stationRecords.substring(1, stationRecords.length() - 1));
+        StringBuilder statistics = new StringBuilder();
+        int i = 0;
+        while (i < station.getYearsInStation().length) {
+            String[] record = formattedStationRecords.split(" ");
+            int recordLength = record[i].length();
+            String formattedRecord = record[i].substring(0, recordLength - 1);
+            if (i != (station.getYearsInStation().length - 1)) {
+                statistics.append(formattedRecord).append("\n");
+
+            } else statistics.append(record[i]);
+
+            i++;
+        }
+        dataArea.setText(statistics.toString());
     }
 
     private void drawPicture(GraphicsContext g) {
