@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +19,8 @@ public class RainfallVisualiser extends Application {
     private TextField directoryTextField;
     private TextField stationNameTextField;
     private TextArea dataArea;
+    private Label statusLabel;
+    private Label statusInfo;
 
     @Override
     public void start(Stage stage) {
@@ -52,6 +55,12 @@ public class RainfallVisualiser extends Application {
         HBox dataBox = new HBox(dataArea);
         dataBox.setPadding(new Insets(10));
         borderPane.setRight(dataBox);
+
+        statusLabel = new Label("Status: ");
+        statusInfo = new Label("ready to load");
+        HBox statusBox = new HBox(statusLabel, statusInfo);
+        statusBox.setPadding(new Insets(5));
+        borderPane.setBottom(statusBox);
 
         stage.show();
 
