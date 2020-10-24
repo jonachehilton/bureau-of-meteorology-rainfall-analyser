@@ -19,29 +19,27 @@ public class Loader {
     public static Station load(String directoryName, String stationName) throws LoaderException {
         String basePath = "" + directoryName + File.separator + stationName;
         String rawPath = basePath + ".csv";
-        String fromPath = basePath + "_analysed.csv";
+        String analysedPath = basePath + "_analysed.csv";
 
-        File rawFile = new File(rawPath);
-        File fromFile = new File(fromPath);
+        File analysedFile = new File(analysedPath);
 
-        if (Files.isRegularFile(rawFile.toPath())) {
-            System.out.println("FOUND raw file = " + rawFile.toPath());
-        } else {
+        if (directoryName.length() == 0){
             throw new LoaderException("Empty directory name");
         }
-
-        if (Files.isRegularFile(fromFile.toPath())) {
-            System.out.println("FOUND _analysed file = " + fromFile.toPath());
-        } else {
-            System.out.println("MAKING _analysed file = " + fromFile.toPath());
-            calculateRainData(rawPath, fromPath);
+        else if (stationName.length() == 0) {
+            throw new LoaderException("Empty station name");
         }
-        ArrayList<Record> records = getRecords(fromPath);
+
+        if (!Files.isRegularFile(analysedFile.toPath())) {
+            calculateRainData(rawPath, analysedPath);
+        }
+
+        ArrayList<Record> records = getRecords(analysedPath);
         return new Station(records);
     }
 
-    private static ArrayList<Record> getRecords(String fromPath) {
-        TextIO.readFile(fromPath);
+    private static ArrayList<Record> getRecords(String analysedPath) {
+        TextIO.readFile(analysedPath);
         ArrayList<Record> records = new ArrayList<>();
         int count = -1;
         while (!TextIO.eof()) {
