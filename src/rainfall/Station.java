@@ -13,6 +13,10 @@ public class Station {
         this.records = stationData;
     }
 
+    public ArrayList<Record> getRecords() {
+        return records;
+    }
+
     public int[] getYearsInStation() {
         return new int[this.records.size()];
     }
