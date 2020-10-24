@@ -27,7 +27,7 @@ public class Loader {
         if (Files.isRegularFile(rawFile.toPath())) {
             System.out.println("FOUND raw file = " + rawFile.toPath());
         } else {
-            throw new LoaderException();
+            throw new LoaderException("Empty directory name");
         }
 
         if (Files.isRegularFile(fromFile.toPath())) {
@@ -141,7 +141,18 @@ public class Loader {
         currentYear = year;
     }
 
-    public static class LoaderException extends Exception {
-        // your LoaderException implementation here
+    public static class LoaderException extends Exception
+    {
+        private final String errorMessage;
+
+        public LoaderException(String message){
+            super(message);
+            errorMessage = message;
+
+        }
+        @Override
+        public String toString(){
+            return errorMessage;
+        }
     }
 }
