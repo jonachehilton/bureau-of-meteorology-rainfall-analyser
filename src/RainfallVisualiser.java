@@ -10,9 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import rainfall.Loader;
+import rainfall.Record;
 import rainfall.Station;
+
+import java.util.ArrayList;
 
 public class RainfallVisualiser extends Application {
 
@@ -24,13 +28,13 @@ public class RainfallVisualiser extends Application {
     private Label statusLabel;
     private Label statusInfo;
     private Canvas canvas;
-    private int width = 1000;
-    private int height = 400;
+    private int width;
+    private int height;
 
     @Override
     public void start(Stage stage) {
         width = 1000;
-        height = 400;
+        height = 600;
         var borderPane = new BorderPane();
         var scene = new Scene(borderPane);
         borderPane.setPrefSize(width, height);
@@ -41,7 +45,7 @@ public class RainfallVisualiser extends Application {
         // add your UI control setup code here using helper methods
         directoryTextField = new TextField("resources");
 
-        stationNameTextField = new TextField("CopperlodeDamStation");
+        stationNameTextField = new TextField("CopperlodeDamStation"); // Change this back
         stationNameTextField.setPrefWidth(400);
 
         button = new Button("Open");
@@ -57,8 +61,6 @@ public class RainfallVisualiser extends Application {
         dataArea = new TextArea();
         dataArea.setPrefWidth(350);
         dataArea.setEditable(false);
-
-
         HBox dataBox = new HBox(dataArea);
         dataBox.setPadding(new Insets(10));
         borderPane.setRight(dataBox);
@@ -71,23 +73,25 @@ public class RainfallVisualiser extends Application {
 
         canvas = new Canvas(width, height);
         HBox canvasBox = new HBox(canvas);
+        canvasBox.setPadding(new Insets(10));
+        canvasBox.setSpacing(10);
         borderPane.setLeft(canvasBox);
 
         stage.show();
 
     }
 
-
     private void clickOpenButton() {
-        drawPicture(canvas.getGraphicsContext2D());
         String directoryName = directoryTextField.getText();
         String stationName = stationNameTextField.getText();
         try {
             station = Loader.load(directoryName, stationName);
             populateDataArea();
+            drawPicture(canvas.getGraphicsContext2D());
             statusInfo.setText("Loaded " + stationName);
         } catch (Loader.LoaderException e) {
             e.printStackTrace();
+            statusInfo.setText(e.toString());
         }
     }
 
@@ -111,8 +115,33 @@ public class RainfallVisualiser extends Application {
     }
 
     private void drawPicture(GraphicsContext g) {
-        g.strokeLine(60, 23, 60, 600); // Create Y-axis line
-        g.strokeLine(60, 50, 50, 50); // Create Y-axis line
+        double barPosition = 20.1; // X-axis position of first bar
+        double spaceBetweenBars = 950d / (double) station.getYearsInStation().length; // Space in pixels between each rainfall bar
+
+        g.setLineWidth(1.5);
+        g.strokeLine(20, 5, 20, 600); // Create Y-axis line
+        g.setLineWidth(3);
+        g.strokeLine(20, 600, 970.1, 600); // Create X-axis line
+
+        ArrayList<Record> records = station.getRecords();
+        double barMultiplier = 2.8; // Divides total rainfall by 2.5 to fit data in window
+
+
+
+        int i = 0;
+        while (i < station.getYearsInStation().length) {
+            double rainTotal = records.get(i).getTotalRain();
+            double barHeight = rainTotal / barMultiplier;
+            g.setFill(Color.CORNFLOWERBLUE);
+
+            if (i == 1) g.fillRect(barPosition, 598 - barHeight, 1, barHeight); // Create the starting rainfall bar
+
+            barPosition += spaceBetweenBars;
+
+            g.fillRect(barPosition, 598 - barHeight, 1, barHeight); // Create the remaining rainfall bars
+            i++;
+        }
+
     }
 
     public static void main(String[] args) {
