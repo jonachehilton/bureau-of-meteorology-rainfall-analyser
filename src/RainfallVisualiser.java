@@ -39,7 +39,6 @@ public class RainfallVisualiser extends Application {
         stage.setScene(scene);
         stage.setTitle("Rainfall Visualiser");
 
-        // add your UI control setup code here using helper methods
         directoryTextField = new TextField("resources");
 
         stationNameTextField = new TextField("CopperlodeDamStation"); // Change this back
@@ -115,6 +114,8 @@ public class RainfallVisualiser extends Application {
     }
 
     private void drawPicture(GraphicsContext g) {
+        g.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); // Clear canvas to remove old data
+
         g.setLineWidth(1.5);
         g.strokeLine(20, 5, 20, 600); // Create Y-axis line
         g.setLineWidth(3);
