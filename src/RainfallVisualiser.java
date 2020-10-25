@@ -22,20 +22,16 @@ import java.util.Collections;
 public class RainfallVisualiser extends Application {
 
     private Station station;
-    private Button button;
     private TextField directoryTextField;
     private TextField stationNameTextField;
     private TextArea dataArea;
-    private Label statusLabel;
     private Label statusInfo;
     private Canvas canvas;
-    private int width;
-    private int height;
 
     @Override
     public void start(Stage stage) {
-        width = 1000;
-        height = 600;
+        int width = 1000;
+        int height = 600;
         var borderPane = new BorderPane();
         var scene = new Scene(borderPane);
         borderPane.setPrefSize(width, height);
@@ -49,7 +45,7 @@ public class RainfallVisualiser extends Application {
         stationNameTextField = new TextField("CopperlodeDamStation"); // Change this back
         stationNameTextField.setPrefWidth(400);
 
-        button = new Button("Open");
+        Button button = new Button("Open");
         button.setOnAction(e -> clickOpenButton());
 
         HBox textAndButtonBox = new HBox(directoryTextField, stationNameTextField, button);
@@ -66,7 +62,7 @@ public class RainfallVisualiser extends Application {
         dataBox.setPadding(new Insets(10));
         borderPane.setRight(dataBox);
 
-        statusLabel = new Label("Status: ");
+        Label statusLabel = new Label("Status: ");
         statusInfo = new Label("Ready");
         HBox statusBox = new HBox(statusLabel, statusInfo);
         statusBox.setPadding(new Insets(5));
@@ -85,13 +81,13 @@ public class RainfallVisualiser extends Application {
     private void clickOpenButton() {
         String directoryName = directoryTextField.getText();
         String stationName = stationNameTextField.getText();
+
         try {
             station = Loader.load(directoryName, stationName);
             populateDataArea();
             drawPicture(canvas.getGraphicsContext2D());
             statusInfo.setText("Loaded " + stationName);
         } catch (Loader.LoaderException e) {
-            e.printStackTrace();
             statusInfo.setText(e.toString()); // Update status message
         }
     }
