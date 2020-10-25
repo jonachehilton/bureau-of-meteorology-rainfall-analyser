@@ -14,6 +14,7 @@ public class Record {
         setMinRain(min);
         setMaxRain(max);
     }
+
     @Override
     public String toString() {
         return year + "," + month + "," + totalRain + "," + minRain + "," + maxRain;
@@ -51,11 +52,5 @@ public class Record {
         return totalRain;
     }
 
-    public double getMinRain() {
-        return minRain;
-    }
 
-    public double getMaxRain() {
-        return maxRain;
-    }
 }

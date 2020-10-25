@@ -23,13 +23,12 @@ public class Loader {
 
         File analysedFile = new File(analysedPath);
 
-        if (directoryName.length() == 0){
+        if (directoryName.length() == 0) {
             throw new LoaderException("Empty directory name");
         }
         else if (stationName.length() == 0) {
             throw new LoaderException("Empty station name");
         }
-
         if (!Files.isRegularFile(analysedFile.toPath())) {
             calculateRainData(rawPath, analysedPath);
         }
@@ -91,8 +90,8 @@ public class Loader {
             String key = "y" + year + "m" + month; // Key for all HashMaps
 
             if (count == 1) {
-                resetValues(key, year, month);
-                TextIO.put("year,month,total,min,max" + System.lineSeparator());
+                resetValues(key, year, month); // Make values match with current values on first iteration
+                TextIO.put("year,month,total,min,max" + System.lineSeparator()); // Write column titles
             }
 
             // Calculates total monthly rain
@@ -117,8 +116,8 @@ public class Loader {
                 if (rain > oldValue) monthlyMaximums.put(key, rain);
             } else monthlyMaximums.put(key, rain);
 
-
-            if (!key.equals(currentKey)) { // Month has changed
+            // Check if month has changed and write to file if so
+            if (!key.equals(currentKey)) {
                 double total = monthlyTotals.get(currentKey);
                 double min = monthlyMinimums.get(currentKey);
                 double max = monthlyMaximums.get(currentKey);
@@ -141,17 +140,16 @@ public class Loader {
         currentYear = year;
     }
 
-    public static class LoaderException extends Exception
-    {
+    public static class LoaderException extends Exception {
         private final String errorMessage;
 
-        public LoaderException(String message){
+        public LoaderException(String message) {
             super(message);
             errorMessage = message;
 
         }
         @Override
-        public String toString(){
+        public String toString() {
             return errorMessage;
         }
     }

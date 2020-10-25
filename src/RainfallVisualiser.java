@@ -39,9 +39,9 @@ public class RainfallVisualiser extends Application {
         stage.setScene(scene);
         stage.setTitle("Rainfall Visualiser");
 
-        directoryTextField = new TextField("resources");
+        directoryTextField = new TextField("");
 
-        stationNameTextField = new TextField("CopperlodeDamStation"); // Change this back
+        stationNameTextField = new TextField("");
         stationNameTextField.setPrefWidth(400);
 
         Button button = new Button("Open");
@@ -57,9 +57,9 @@ public class RainfallVisualiser extends Application {
         dataArea = new TextArea();
         dataArea.setPrefWidth(350);
         dataArea.setEditable(false);
-        HBox dataBox = new HBox(dataArea);
-        dataBox.setPadding(new Insets(10));
-        borderPane.setRight(dataBox);
+        HBox dataAreaBox = new HBox(dataArea);
+        dataAreaBox.setPadding(new Insets(10));
+        borderPane.setRight(dataAreaBox);
 
         Label statusLabel = new Label("Status: ");
         statusInfo = new Label("Ready");
