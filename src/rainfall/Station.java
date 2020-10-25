@@ -18,7 +18,7 @@ public class Station {
     }
 
     public int[] getYearsInStation() {
-        return new int[this.records.size()];
+        return new int[records.size()];
     }
 
     @Override

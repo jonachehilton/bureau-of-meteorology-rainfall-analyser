@@ -17,6 +17,7 @@ import rainfall.Record;
 import rainfall.Station;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RainfallVisualiser extends Application {
 
@@ -91,19 +92,22 @@ public class RainfallVisualiser extends Application {
             statusInfo.setText("Loaded " + stationName);
         } catch (Loader.LoaderException e) {
             e.printStackTrace();
-            statusInfo.setText(e.toString());
+            statusInfo.setText(e.toString()); // Update status message
         }
     }
 
     private void populateDataArea() {
         String stationRecords = station.toString();
         String formattedStationRecords = (stationRecords.substring(1, stationRecords.length() - 1));
+
         StringBuilder statistics = new StringBuilder();
+
         int i = 0;
         while (i < station.getYearsInStation().length) {
             String[] record = formattedStationRecords.split(" ");
             int recordLength = record[i].length();
             String formattedRecord = record[i].substring(0, recordLength - 1); // Remove trailing comma
+
             if (i != (station.getYearsInStation().length - 1)) {
                 statistics.append(formattedRecord).append("\n");
 
@@ -115,33 +119,34 @@ public class RainfallVisualiser extends Application {
     }
 
     private void drawPicture(GraphicsContext g) {
-        double barPosition = 20.1; // X-axis position of first bar
-        double spaceBetweenBars = 950d / (double) station.getYearsInStation().length; // Space in pixels between each rainfall bar
-
         g.setLineWidth(1.5);
         g.strokeLine(20, 5, 20, 600); // Create Y-axis line
         g.setLineWidth(3);
         g.strokeLine(20, 600, 970.1, 600); // Create X-axis line
 
+        // Dynamically calculates the space between bars so that all data will always fit on the X-Axis
+        double spaceBetweenBars = 950d / (double) station.getYearsInStation().length;
+
         ArrayList<Record> records = station.getRecords();
-        double barMultiplier = 2.8; // Divides total rainfall by 2.5 to fit data in window
 
+        // Dynamically calculates multiplier so that the all data will always fit in Y-Axis
+        ArrayList<Double> monthlyTotals = new ArrayList<>();
+        for (Record record : records) monthlyTotals.add(record.getTotalRain());
+        double barHeightMultiplier = Collections.max(monthlyTotals) / 600d;
 
-
+        double barPosition = 20.1; // X-axis position of first bar
+        g.setFill(Color.CORNFLOWERBLUE);
         int i = 0;
         while (i < station.getYearsInStation().length) {
-            double rainTotal = records.get(i).getTotalRain();
-            double barHeight = rainTotal / barMultiplier;
-            g.setFill(Color.CORNFLOWERBLUE);
+            double rainTotal = records.get(i).getTotalRain(); //
+            double barHeight = rainTotal / barHeightMultiplier;
 
-            if (i == 1) g.fillRect(barPosition, 598 - barHeight, 1, barHeight); // Create the starting rainfall bar
-
+            if (i == 1) g.fillRect(barPosition, 598 - barHeight, 2, barHeight); // Create first rain bar
             barPosition += spaceBetweenBars;
+            g.fillRect(barPosition, 598 - barHeight, 2, barHeight); // Create the remaining rain bars
 
-            g.fillRect(barPosition, 598 - barHeight, 1, barHeight); // Create the remaining rainfall bars
             i++;
         }
-
     }
 
     public static void main(String[] args) {
