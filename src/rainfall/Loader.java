@@ -33,6 +33,9 @@ public class Loader {
         if (!Files.isRegularFile(analysedFile.toPath())) {
             calculateRainData(rawPath, analysedPath);
         }
+        if (analysedFile.length() == 0) {
+            throw new LoaderException("File is empty");
+        }
 
         ArrayList<Record> records = getRecords(analysedPath);
         return new Station(records);
@@ -60,7 +63,7 @@ public class Loader {
         return records;
     }
 
-    private static void calculateRainData(String rawPath, String dstPath) {
+    private static void calculateRainData(String rawPath, String dstPath) throws LoaderException {
         TextIO.readFile(rawPath);
         TextIO.writeFile(dstPath);
 
@@ -82,8 +85,7 @@ public class Loader {
             double rain = data.length > 5 ? Double.parseDouble(data[IDX_RAIN]) : 0; // Handles missing rain data
 
             if ((month < 1 || month > 12) || (day < 1 || day > 31)) {
-                System.out.println("ERROR: failed to process file");
-                return;
+                throw new LoaderException("Data in the file is incorrect");
             }
 
             String key = "y" + year + "m" + month; // Key for all HashMaps
