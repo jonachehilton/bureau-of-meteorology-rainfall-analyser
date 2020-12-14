@@ -11,7 +11,7 @@ In particular, the Climate Data Online service provides access to rainfall data 
 For example, Copperlode Dam station has been recording rainfall data since the year 2000. 
 
 
-
+**The Java program does the following:**
 * Reads BOM rainfall data for 10+ years from csv text files
 
 * Calculates monthly rainfall totals along with minimum daily and maximum daily rainfall during each month, across the 10+ years’ worth of data
